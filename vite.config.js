@@ -13,16 +13,20 @@ export default defineConfig({
     
     build: {
         // Minification & optimization
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true, // Remove console logs in production
-                drop_debugger: true,
-            },
-            output: {
-                comments: false, // Remove comments
+        build: {
+    sourcemap: process.env.NODE_ENV === 'development',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
+    outDir: 'public/build',
+    rollupOptions: {
+        output: {
+            manualChunks: {
+                vendor: ['axios'],
+                tailwind: ['tailwindcss'],
             },
         },
+    },
+},
         
         // Source maps only for development
         sourcemap: process.env.NODE_ENV === 'development',
